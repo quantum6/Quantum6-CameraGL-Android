@@ -18,15 +18,13 @@ import javax.microedition.khronos.opengles.GL10;
  * @date 2017/3/1
  */
 public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, SurfaceTexture.OnFrameAvailableListener {
-    private Context mContext;
     private SurfaceTexture mSurface;
     private int mTextureID = -1;
     private DirectDrawer mDirectDrawer;
 
     public CameraGLSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
-        mContext = context;
+        
         // 设置OpenGl ES的版本为2.0
         setEGLContextClientVersion(2);
         // 设置与当前GLSurfaceView绑定的Renderer
@@ -37,8 +35,6 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        // TODO Auto-generated method stub
-        LOG.logI("onSurfaceCreated...");
         mTextureID = GlUtil.createTextureID();
         mSurface = new SurfaceTexture(mTextureID);
         mSurface.setOnFrameAvailableListener(this);
@@ -49,8 +45,6 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        // TODO Auto-generated method stub
-        LOG.logI("onSurfaceChanged...");
         // 设置OpenGL场景的大小,(0,0)表示窗口内部视口的左下角，(w,h)指定了视口的大小
         GLES20.glViewport(0, 0, width, height);
         if (!CameraCapture.get().isPreviewing()) {
@@ -62,8 +56,6 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        // TODO Auto-generated method stub
-        LOG.logI("onDrawFrame...");
         // 设置白色为清屏
         GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         // 清除屏幕和深度缓存
@@ -77,7 +69,6 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 
     @Override
     public void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         CameraCapture.get().doStopCamera();
     }
@@ -85,8 +76,6 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 
     @Override
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-        // TODO Auto-generated method stub
-        LOG.logI("onFrameAvailable...");
         this.requestRender();
     }
 

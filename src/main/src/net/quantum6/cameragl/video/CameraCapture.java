@@ -16,8 +16,6 @@ import java.util.List;
  */
 public class CameraCapture {
 
-    private static final float DEFAULT_PREVIEW_RATE = 4f / 3f;
-
     private Camera mCamera;
     private Camera.Parameters mParams;
     private boolean isPreviewing = false;
@@ -40,18 +38,15 @@ public class CameraCapture {
      * open back camera
      */
     public void openBackCamera() {
-        LOG.logI("Back Camera open....");
         int numberOfCameras = Camera.getNumberOfCameras();
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         for (int i = 0; i < numberOfCameras; i++) {
             Camera.getCameraInfo(i, cameraInfo);
             if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                LOG.logI("Back Camera open over....");
                 mCamera = Camera.open(i);
                 return;
             }
         }
-        LOG.logI("Back Camera open 异常!!!");
         doStopCamera();
     }
 
@@ -59,18 +54,15 @@ public class CameraCapture {
      * open front camera
      */
     public void openFrontCamera() {
-        LOG.logI("Front Camera open....");
         int numberOfCameras = Camera.getNumberOfCameras();
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         for (int i = 0; i < numberOfCameras; i++) {
             Camera.getCameraInfo(i, cameraInfo);
             if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                LOG.logI("Front Camera open over....");
                 mCamera = Camera.open(i);
                 return;
             }
         }
-        LOG.logI("Front Camera open 异常!!!");
         doStopCamera();
     }
 
@@ -96,7 +88,6 @@ public class CameraCapture {
      * @param holder
      */
     public void doStartPreview(SurfaceHolder holder) {
-        LOG.logI("doStartPreview...");
         if (isPreviewing) {
             mCamera.stopPreview();
             return;
@@ -105,7 +96,6 @@ public class CameraCapture {
             try {
                 mCamera.setPreviewDisplay(holder);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             initCamera();
@@ -119,19 +109,15 @@ public class CameraCapture {
      * @param surface
      */
     public void doStartPreview(SurfaceTexture surface) {
-        LOG.logI("doStartPreview...");
         if (isPreviewing) {
-            LOG.logI("stopPreview...");
             mCamera.stopPreview();
             return;
         }
         if (mCamera != null) {
             mSurface = surface;
             try {
-                LOG.logI("setPreviewTexture...");
                 mCamera.setPreviewTexture(surface);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             initCamera();
@@ -162,10 +148,7 @@ public class CameraCapture {
         if (mCamera != null) {
 
             mParams = mCamera.getParameters();
-            //设置PreviewSize和PictureSize
-            Camera.Size previewSize = CameraUtil.chooseOptimalSize(
-                    mParams.getSupportedPreviewSizes(), DEFAULT_PREVIEW_RATE, 800);
-            mParams.setPreviewSize(previewSize.width, previewSize.height);
+            mParams.setPreviewSize(640, 480);
 
             mCamera.setDisplayOrientation(0);
 
@@ -179,10 +162,6 @@ public class CameraCapture {
             isPreviewing = true;
 
             mParams = mCamera.getParameters(); //重新get一次
-            LOG.logI("最终设置:PreviewSize--With = " + mParams.getPreviewSize().width
-                    + "Height = " + mParams.getPreviewSize().height);
-            LOG.logI("最终设置:PictureSize--With = " + mParams.getPictureSize().width
-                    + "Height = " + mParams.getPictureSize().height);
         }
     }
 

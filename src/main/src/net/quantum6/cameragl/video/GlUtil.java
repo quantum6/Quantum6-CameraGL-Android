@@ -65,7 +65,7 @@ public class GlUtil {
         int program = GLES20.glCreateProgram();// create empty OpenGL ES Program
         checkGlError("glCreateProgram");
         if (program == 0) {
-            LOG.logE("Could not create program");
+            //LOG.logE("Could not create program");
         }
         GLES20.glAttachShader(program, vertexShader);// add the vertex shader to program
         checkGlError("glAttachShader");
@@ -75,8 +75,8 @@ public class GlUtil {
         int[] linkStatus = new int[1];
         GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, linkStatus, 0);
         if (linkStatus[0] != GLES20.GL_TRUE) {
-            LOG.logE("Could not link program: ");
-            LOG.logE(GLES20.glGetProgramInfoLog(program));
+            //LOG.logE("Could not link program: ");
+            //LOG.logE(GLES20.glGetProgramInfoLog(program));
             GLES20.glDeleteProgram(program);
             program = 0;
         }
@@ -96,8 +96,8 @@ public class GlUtil {
         int[] compiled = new int[1];
         GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compiled, 0);
         if (compiled[0] == 0) {
-            LOG.logE("Could not compile shader " + shaderType + ":");
-            LOG.logE(" " + GLES20.glGetShaderInfoLog(shader));
+            //LOG.logE("Could not compile shader " + shaderType + ":");
+            //LOG.logE(" " + GLES20.glGetShaderInfoLog(shader));
             GLES20.glDeleteShader(shader);
             shader = 0;
         }
@@ -111,7 +111,7 @@ public class GlUtil {
         int error = GLES20.glGetError();
         if (error != GLES20.GL_NO_ERROR) {
             String msg = op + ": glError 0x" + Integer.toHexString(error);
-            LOG.logE(msg);
+            //LOG.logE(msg);
             throw new RuntimeException(msg);
         }
     }
@@ -201,9 +201,9 @@ public class GlUtil {
      * Writes GL version info to the log.
      */
     public static void logVersionInfo() {
-        LOG.logE("vendor  : " + GLES20.glGetString(GLES20.GL_VENDOR));
-        LOG.logE("renderer: " + GLES20.glGetString(GLES20.GL_RENDERER));
-        LOG.logE("version : " + GLES20.glGetString(GLES20.GL_VERSION));
+        //LOG.logE("vendor  : " + GLES20.glGetString(GLES20.GL_VENDOR));
+        //LOG.logE("renderer: " + GLES20.glGetString(GLES20.GL_RENDERER));
+        //LOG.logE("version : " + GLES20.glGetString(GLES20.GL_VERSION));
 
     }
 }
